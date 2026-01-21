@@ -1034,6 +1034,10 @@ display_configuration(lldpctl_conn_t *conn, struct writer *w)
 		lldpctl_k_config_bond_slave_src_mac_type));
 	tag_datatag(w, "lldp-portid-type", "Port ID TLV subtype for LLDP frames",
 	    lldpctl_atom_get_str(configuration, lldpctl_k_config_lldp_portid_type));
+	tag_datatag(w, "lldp-portdescr-type",
+	    "Port description source for LLDP frames",
+	    lldpctl_atom_get_str(configuration,
+		lldpctl_k_config_lldp_portdescr_type));
 	tag_datatag(w, "lldp-agent-type", "Agent type",
 	    lldpctl_atom_get_str(configuration, lldpctl_k_config_lldp_agent_type));
 
