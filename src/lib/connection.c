@@ -240,7 +240,7 @@ check_for_notification(lldpctl_conn_t *conn)
 			    change->state);
 			goto end;
 		}
-		interface = _lldpctl_new_atom(conn, atom_interface, change->ifname);
+		interface = _lldpctl_new_atom(conn, atom_interface, change->ifname, change->ifalias);
 		if (interface == NULL) goto end;
 		neighbor =
 		    _lldpctl_new_atom(conn, atom_port, 0, NULL, change->neighbor, NULL);
@@ -264,6 +264,7 @@ end:
 		free(change->neighbor);
 	}
 	free(change->ifname);
+	free(change->ifalias);
 	free(change);
 
 	/* Indicate if more data remains in the buffer for processing */
