@@ -275,10 +275,11 @@ levent_ctl_send(struct lldpd_one_client *client, int type, void *data, size_t le
 }
 
 void
-levent_ctl_notify(char *ifname, int state, struct lldpd_port *neighbor)
+levent_ctl_notify(char *ifname, char *ifalias, int state, struct lldpd_port *neighbor)
 {
 	struct lldpd_one_client *client, *client_next;
 	struct lldpd_neighbor_change neigh = { .ifname = ifname,
+		.ifalias = ifalias,
 		.state = state,
 		.neighbor = neighbor };
 	void *output = NULL;

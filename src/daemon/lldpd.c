@@ -296,6 +296,7 @@ lldpd_hardware_cleanup(struct lldpd *cfg, struct lldpd_hardware *hardware)
 	free(hardware->h_lchassis_previous_id);
 	free(hardware->h_lport_previous_id);
 	free(hardware->h_ifdescr_previous);
+	free(hardware->h_ifalias);
 	lldpd_port_cleanup(&hardware->h_lport, 1);
 	if (hardware->h_ops && hardware->h_ops->cleanup)
 		hardware->h_ops->cleanup(cfg, hardware);
@@ -367,7 +368,7 @@ notify_clients_deletion(struct lldpd_hardware *hardware, struct lldpd_port *rpor
 {
 	TRACE(LLDPD_NEIGHBOR_DELETE(hardware->h_ifname, rport->p_chassis->c_name,
 	    rport->p_descr));
-	levent_ctl_notify(hardware->h_ifname, NEIGHBOR_CHANGE_DELETED, rport);
+	levent_ctl_notify(hardware->h_ifname, hardware->h_ifalias, NEIGHBOR_CHANGE_DELETED, rport);
 #ifdef USE_SNMP
 	agent_notify(hardware, NEIGHBOR_CHANGE_DELETED, rport);
 #endif
@@ -727,14 +728,14 @@ lldpd_decode(struct lldpd *cfg, char *frame, int s, struct lldpd_hardware *hardw
 	if (oport) {
 		TRACE(LLDPD_NEIGHBOR_UPDATE(hardware->h_ifname, chassis->c_name,
 		    port->p_descr, i));
-		levent_ctl_notify(hardware->h_ifname, NEIGHBOR_CHANGE_UPDATED, port);
+		levent_ctl_notify(hardware->h_ifname, hardware->h_ifalias, NEIGHBOR_CHANGE_UPDATED, port);
 #ifdef USE_SNMP
 		agent_notify(hardware, NEIGHBOR_CHANGE_UPDATED, port);
 #endif
 	} else {
 		TRACE(LLDPD_NEIGHBOR_NEW(hardware->h_ifname, chassis->c_name,
 		    port->p_descr, i));
-		levent_ctl_notify(hardware->h_ifname, NEIGHBOR_CHANGE_ADDED, port);
+		levent_ctl_notify(hardware->h_ifname, hardware->h_ifalias, NEIGHBOR_CHANGE_ADDED, port);
 #ifdef USE_SNMP
 		agent_notify(hardware, NEIGHBOR_CHANGE_ADDED, port);
 #endif
