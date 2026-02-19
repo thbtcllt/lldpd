@@ -1,3 +1,7 @@
+lldpd (1.0.21)
+ * Changes:
+   + Add "configure lldp portdescription-source" to choose how to populate port description (#763)
+
 lldpd (1.0.20)
  * Changes:
    + Enable fast start unconditionally (and move its configuration in "configure lldp") (#683)
